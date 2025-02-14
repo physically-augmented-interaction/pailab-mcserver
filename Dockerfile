@@ -33,9 +33,9 @@ RUN echo "rcon.password=YOUR_PASSWORD" >> /server/server.properties
 
 # plugins ディレクトリをコピー
 COPY --from=0 /tmp/config/plugins /server/plugins
-RUN echo "BotToken: ''" >> /server/plugins/DiscordSRV/config.yml
-RUN echo "Channels: { 'global': '' }" >> /server/plugins/DiscordSRV/config.yml
-RUN echo "DiscordConsoleChannelId: ''" >> /server/plugins/DiscordSRV/config.yml
+RUN sed -i 's/BotToken:.*$/BotToken: '\''YOUR_BOT_TOKEN'\''/' /server/plugins/DiscordSRV/config.yml
+RUN sed -i 's/Channels:.*$/Channels: { '\''global'\''\: '\''YOUR_CHAT_CHANNEL_ID'\'' }/' /server/plugins/DiscordSRV/config.yml
+RUN sed -i 's/DiscordConsoleChannelId:.*$/DiscordConsoleChannelId: '\''YOUR_CONSOLE_CHANNEL_ID'\''/' /server/plugins/DiscordSRV/config.yml
 
 # Spigot サーバーを起動
 CMD ["java", "-Xms2G", "-Xmx4G", "-jar", "spigot.jar", "nogui"]
